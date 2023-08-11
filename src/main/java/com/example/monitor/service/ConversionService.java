@@ -3,6 +3,9 @@ package com.example.monitor.service;
 import com.example.monitor.model.monitored_endpoint.MonitoredEndpoint;
 import com.example.monitor.model.monitored_endpoint.MonitoredEndpointCreateDTO;
 import com.example.monitor.model.monitored_endpoint.MonitoredEndpointDTO;
+import com.example.monitor.model.user.User;
+import com.example.monitor.model.user.UserCreateDTO;
+import com.example.monitor.model.user.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +29,17 @@ public class ConversionService {
 
     public MonitoredEndpoint convertToEntity(MonitoredEndpointCreateDTO dto) {
         return modelMapper.map(dto, MonitoredEndpoint.class);
+    }
+
+    public UserDTO convertToDTO(User entity) {
+        return modelMapper.map(entity, UserDTO.class);
+    }
+
+    public User convertToEntity(UserDTO dto) {
+        return modelMapper.map(dto, User.class);
+    }
+
+    public User convertToEntity(UserCreateDTO dto) {
+        return modelMapper.map(dto, User.class);
     }
 }
