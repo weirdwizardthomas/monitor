@@ -77,3 +77,57 @@ The service should allow you to
   and run it in Docker
 
 Alright, that’s it. Good luck and, most importantly, have fun!
+
+# Running
+
+## Download the Code
+
+1. Open your terminal or command prompt.
+2. Navigate to the directory where you want to download the `monitor` Spring Boot application.
+
+```shell
+cd /path/to/your/directory
+```
+
+3. Clone the repository containing your Spring Boot application.
+
+```shell
+git clone https://github.com/weirdwizardthomas/monitor
+```
+
+## Set Environment Variables
+
+1. Open your terminal.
+2. Set the environment variables required by your Spring Boot application. Replace <values> with your actual values.
+
+```shell
+export DATABASE_HOST=your_database_host
+export DATABASE_USERNAME=your_database_username
+export DATABASE_PASSWORD=your_database_password
+```
+
+## Build and Run the Spring Boot Application
+
+1. Navigate to the root directory of your "monitor" Spring Boot application.
+
+```shell
+cd /path/to/monitor
+```
+
+2. Build the application using Gradle.
+
+```shell
+./gradlew build
+```
+
+3. Run the Spring Boot application with the specified environment variables.
+
+```shell
+java -jar -DATABASE_HOST=$DATABASE_HOST -DATABASE_USERNAME=$DATABASE_USERNAME -DATABASE_PASSWORD=$DATABASE_PASSWORD
+```
+
+# Todo
+
+* [ ] More robust tests
+* [ ] Oauth
+* [ ] Docker
