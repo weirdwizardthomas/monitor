@@ -12,10 +12,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-// 03555ee7-94ab-4aa0-bb6d-13594159ffeb
 @Component
 public class AccessTokenFilter extends OncePerRequestFilter {
 
+    public static final String BEARER = "Bearer ";
     private final UserRepository userRepository;
     private static final ThreadLocal<User> currentUserThreadLocal = new ThreadLocal<>();
 
@@ -30,10 +30,9 @@ public class AccessTokenFilter extends OncePerRequestFilter {
 
         String accessToken = request.getHeader("Authorization");
 
-        if (accessToken != null && accessToken.startsWith("Bearer ")) {
-            accessToken = accessToken.substring(7); // Remove "Bearer "
+        if (accessToken != null && accessToken.startsWith(BEARER)) {
+            accessToken = accessToken.substring(BEARER.length());
 
-            // Look up the user by access token
             User user = userRepository.findByAccessToken(accessToken);
 
             if (user != null) {
@@ -42,7 +41,6 @@ public class AccessTokenFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-
         currentUserThreadLocal.remove();
     }
 

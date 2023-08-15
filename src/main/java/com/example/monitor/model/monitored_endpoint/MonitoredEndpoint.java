@@ -1,7 +1,5 @@
 package com.example.monitor.model.monitored_endpoint;
 
-// import com.example.monitor.model.user.User;
-
 import com.example.monitor.model.monitoring_result.MonitoringResult;
 import com.example.monitor.model.user.User;
 import jakarta.persistence.*;

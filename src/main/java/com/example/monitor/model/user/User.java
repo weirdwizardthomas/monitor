@@ -16,7 +16,6 @@ public class User {
     private String username;
     @Email(message = "Please provide a valid email address")
     private String email;
-    // todo should be UUID like
     private String accessToken;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

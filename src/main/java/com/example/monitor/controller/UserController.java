@@ -6,11 +6,13 @@ import com.example.monitor.model.user.UserDTO;
 import com.example.monitor.service.ConversionService;
 import com.example.monitor.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 // todo use @responsestatus https://springdoc.org/#error-handling-for-rest-using-controlleradvice
 @Controller
 @RequestMapping(path = "user")
@@ -33,6 +35,7 @@ public class UserController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody UserDTO createUser(@RequestBody UserCreateDTO userDTO) {
         User user = conversionService.convertToEntity(userDTO);
         user = userEntityService.create(user);

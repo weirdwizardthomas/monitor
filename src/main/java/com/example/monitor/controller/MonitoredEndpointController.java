@@ -9,6 +9,7 @@ import com.example.monitor.model.monitoring_result.MonitoringResultDTO;
 import com.example.monitor.service.ConversionService;
 import com.example.monitor.service.MonitoredEndpointEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +44,8 @@ public class MonitoredEndpointController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody MonitoredEndpointDTO createMonitoredEndpoint(@RequestBody MonitoredEndpointCreateDTO monitoredEndpointDTO) {
-        // 62447e76-f9a2-4f44-ab8f-c42559934e92
         MonitoredEndpoint monitoredEndpoint = conversionService.convertToEntity(monitoredEndpointDTO);
         monitoredEndpoint = monitoredEndpointEntityService.create(monitoredEndpoint);
         return conversionService.convertToDTO(monitoredEndpoint);
