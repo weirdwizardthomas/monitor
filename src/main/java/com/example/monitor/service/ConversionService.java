@@ -35,6 +35,7 @@ public class ConversionService {
                 .orElse(List.of());
 
         monitoredEndpointDTO.setMonitoringResultIds(monitoringResultDTOs);
+        monitoredEndpointDTO.setUserId(entity.getUser().getId());
 
         return monitoredEndpointDTO;
     }

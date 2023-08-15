@@ -85,6 +85,9 @@ public class MonitoringBackgroundService {
             monitoringResult.setPayload(response.body());
             monitoringResult = monitoringResultEntityService.create(monitoringResult, endpoint.getId());
 
+            endpoint.setLastCheckedAt(monitoringResult.getRetrievedAt());
+            monitoredEndpointRepository.save(endpoint);
+
             LOGGER.info("Response from %s: %d".formatted(endpoint.getUrl(), monitoringResult.getStatusCode()));
         } catch (IOException | InterruptedException e) {
             LOGGER.error("Could not get response from %s: %s".formatted(endpoint.getUrl(), e));

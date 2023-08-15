@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserEntityService {
@@ -28,6 +29,9 @@ public class UserEntityService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("User with email %s already exists.".formatted(user.getEmail()));
         }
+
+        user.setAccessToken(UUID.randomUUID().toString());
+
         return userRepository.save(user);
     }
 

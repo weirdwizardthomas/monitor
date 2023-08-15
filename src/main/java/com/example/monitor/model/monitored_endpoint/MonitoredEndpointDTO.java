@@ -13,6 +13,7 @@ public class MonitoredEndpointDTO {
     private Date lastCheckedAt;
     private int monitoredIntervalSeconds;
     private List<Long> monitoringResultIds;
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -68,6 +69,14 @@ public class MonitoredEndpointDTO {
 
     public void setMonitoringResultIds(List<Long> monitoringResultIds) {
         this.monitoringResultIds = monitoringResultIds;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
 

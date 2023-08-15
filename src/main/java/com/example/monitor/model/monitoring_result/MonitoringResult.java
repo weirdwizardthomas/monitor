@@ -16,6 +16,7 @@ public class MonitoringResult {
     @CreationTimestamp
     private Date retrievedAt;
     private int statusCode;
+    @Column(columnDefinition = "TEXT")
     private String payload;
     @ManyToOne
     @JoinColumn(name = "monitored_endpoint_id")
@@ -62,5 +63,13 @@ public class MonitoringResult {
 
     public void setMonitoredEndpoint(MonitoredEndpoint monitoredEndpointId) {
         this.monitoredEndpoint = monitoredEndpointId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

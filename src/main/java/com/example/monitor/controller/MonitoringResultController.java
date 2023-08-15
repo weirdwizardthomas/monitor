@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/monitoring_result")
@@ -28,11 +28,11 @@ public class MonitoringResultController {
         return monitoringResultEntityService.getAll()
                 .stream()
                 .map(conversionService::convertToDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @GetMapping(path = "/{monitoringResultId}")
-    public @ResponseBody MonitoringResultDTO getMonitoringResultById(@PathVariable Long monitoringResultId) {
+    public @ResponseBody MonitoringResultDTO getMonitoringResultById(@PathVariable Long monitoringResultId) throws AccessDeniedException {
         MonitoringResult monitoringResult = monitoringResultEntityService.getById(monitoringResultId);
         return conversionService.convertToDTO(monitoringResult);
     }
