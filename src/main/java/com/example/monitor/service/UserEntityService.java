@@ -24,7 +24,10 @@ public class UserEntityService {
         return userRepository.getReferenceById(id);
     }
 
-    public User create(User user) {
+    public User create(User user) throws IllegalArgumentException {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("User with email %s already exists.".formatted(user.getEmail()));
+        }
         return userRepository.save(user);
     }
 

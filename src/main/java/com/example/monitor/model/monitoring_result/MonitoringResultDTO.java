@@ -1,5 +1,7 @@
 package com.example.monitor.model.monitoring_result;
 
+import com.example.monitor.model.monitored_endpoint.MonitoredEndpointDTO;
+
 import java.util.Date;
 
 public class MonitoringResultDTO {
@@ -8,6 +10,8 @@ public class MonitoringResultDTO {
     private String payload;
 
     private Date retrievedAt;
+
+    private long monitoredEndpointId;
 
     public Long getId() {
         return id;
@@ -41,5 +45,11 @@ public class MonitoringResultDTO {
         this.payload = payload;
     }
 
+    public long getMonitoredEndpointId() {
+        return monitoredEndpointId;
+    }
 
+    public void setMonitoredEndpointId(long monitoredEndpointId) {
+        this.monitoredEndpointId = monitoredEndpointId;
+    }
 }

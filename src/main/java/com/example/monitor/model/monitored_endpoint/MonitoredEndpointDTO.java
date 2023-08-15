@@ -1,6 +1,9 @@
 package com.example.monitor.model.monitored_endpoint;
 
+import com.example.monitor.model.monitoring_result.MonitoringResultDTO;
+
 import java.util.Date;
+import java.util.List;
 
 public class MonitoredEndpointDTO {
     private Long id;
@@ -9,6 +12,7 @@ public class MonitoredEndpointDTO {
     private Date createdAt;
     private Date lastCheckedAt;
     private int monitoredIntervalSeconds;
+    private List<Long> monitoringResultIds;
 
     public Long getId() {
         return id;
@@ -56,6 +60,14 @@ public class MonitoredEndpointDTO {
 
     public void setMonitoredIntervalSeconds(int monitoredIntervalSeconds) {
         this.monitoredIntervalSeconds = monitoredIntervalSeconds;
+    }
+
+    public List<Long> getMonitoringResultIds() {
+        return monitoringResultIds;
+    }
+
+    public void setMonitoringResultIds(List<Long> monitoringResultIds) {
+        this.monitoringResultIds = monitoringResultIds;
     }
 }
 

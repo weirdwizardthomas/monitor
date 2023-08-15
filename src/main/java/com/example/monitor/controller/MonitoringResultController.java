@@ -1,7 +1,6 @@
 package com.example.monitor.controller;
 
 import com.example.monitor.model.monitoring_result.MonitoringResult;
-import com.example.monitor.model.monitoring_result.MonitoringResultCreateDTO;
 import com.example.monitor.model.monitoring_result.MonitoringResultDTO;
 import com.example.monitor.service.ConversionService;
 import com.example.monitor.service.MonitoringResultEntityService;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping(path = "monitoring_result")
+@RequestMapping(path = "/monitoring_result")
 public class MonitoringResultController {
     private final ConversionService conversionService;
     private final MonitoringResultEntityService monitoringResultEntityService;
@@ -25,40 +24,21 @@ public class MonitoringResultController {
     }
 
     @GetMapping
-    public @ResponseBody List<MonitoringResultDTO> getAllMonitoringResults() {
+    public @ResponseBody List<MonitoringResultDTO> getMonitoringResults() {
         return monitoringResultEntityService.getAll()
                 .stream()
                 .map(conversionService::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    @PostMapping
-    public @ResponseBody MonitoringResultDTO createUser(@RequestBody MonitoringResultCreateDTO monitoringResultCreateDTO) {
-        MonitoringResult monitoringResult = conversionService.convertToEntity(monitoringResultCreateDTO);
-        monitoringResult = monitoringResultEntityService.create(monitoringResult);
+    @GetMapping(path = "/{monitoringResultId}")
+    public @ResponseBody MonitoringResultDTO getMonitoringResultById(@PathVariable Long monitoringResultId) {
+        MonitoringResult monitoringResult = monitoringResultEntityService.getById(monitoringResultId);
         return conversionService.convertToDTO(monitoringResult);
     }
 
-    @GetMapping(path = "/{id}")
-    public @ResponseBody MonitoringResultDTO getUserById(@PathVariable Long id) {
-        MonitoringResult monitoringResult = monitoringResultEntityService.getById(id);
-        return conversionService.convertToDTO(monitoringResult);
-    }
-
-    @PutMapping(path = "/{id}")
-    public @ResponseBody MonitoringResultDTO updateUser(@PathVariable Long id, @RequestBody MonitoringResultCreateDTO monitoringResultDTO) {
-        MonitoringResult monitoringResult = monitoringResultEntityService.getById(id);
-
-        monitoringResult.setPayload(monitoringResult.getPayload());
-        monitoringResult.setStatusCode(monitoringResultDTO.getStatusCode());
-        monitoringResult.setRetrievedAt(monitoringResultDTO.getRetrievedAt());
-
-        monitoringResult = monitoringResultEntityService.update(monitoringResult);
-        return conversionService.convertToDTO(monitoringResult);
-    }
-
-    @DeleteMapping(path = "/{id}")
-    public @ResponseBody void deleteUserById(@PathVariable Long id) {
-        monitoringResultEntityService.deleteById(id);
+    @DeleteMapping(path = "/{monitoringResultId}")
+    public @ResponseBody void deleteUserById(@PathVariable Long monitoringResultId) {
+        monitoringResultEntityService.deleteById(monitoringResultId);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+// todo use @responsestatus https://springdoc.org/#error-handling-for-rest-using-controlleradvice
 @Controller
 @RequestMapping(path = "user")
 public class UserController {

@@ -1,6 +1,9 @@
 package com.example.monitor.model.monitoring_result;
 
+import com.example.monitor.model.monitored_endpoint.MonitoredEndpoint;
 import jakarta.persistence.*;
+import com.example.monitor.model.user.User;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -9,16 +12,17 @@ public class MonitoringResult {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date retrievedAt;
     private int statusCode;
-
     private String payload;
-/*
     @ManyToOne
     @JoinColumn(name = "monitored_endpoint_id")
-    private MonitoredEndpoint monitoredEndpointId;*/
+    private MonitoredEndpoint monitoredEndpoint;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Long getId() {
         return id;
@@ -52,4 +56,11 @@ public class MonitoringResult {
         this.payload = payload;
     }
 
+    public MonitoredEndpoint getMonitoredEndpoint() {
+        return monitoredEndpoint;
+    }
+
+    public void setMonitoredEndpoint(MonitoredEndpoint monitoredEndpointId) {
+        this.monitoredEndpoint = monitoredEndpointId;
+    }
 }

@@ -1,20 +1,29 @@
 package com.example.monitor.model.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.monitor.model.monitored_endpoint.MonitoredEndpoint;
+import com.example.monitor.model.monitoring_result.MonitoringResult;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+
+import java.util.List;
 
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String username;
-    // todo validate
+    @Email(message = "Please provide a valid email address")
     private String email;
     // todo should be UUID like
     private String accessToken;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MonitoredEndpoint> monitoredEndpoints;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MonitoringResult> monitoringResult;
 
     public Long getId() {
         return id;

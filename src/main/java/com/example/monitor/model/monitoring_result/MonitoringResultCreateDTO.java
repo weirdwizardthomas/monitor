@@ -5,7 +5,7 @@ import java.util.Date;
 public class MonitoringResultCreateDTO {
     private int statusCode;
     private String payload;
-
+    private long parentId;
     private Date retrievedAt;
 
     public int getStatusCode() {
@@ -30,5 +30,13 @@ public class MonitoringResultCreateDTO {
 
     public void setRetrievedAt(Date retrievedAt) {
         this.retrievedAt = retrievedAt;
+    }
+
+    public long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(long parentId) {
+        this.parentId = parentId;
     }
 }

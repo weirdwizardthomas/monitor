@@ -3,6 +3,8 @@ package com.example.monitor.controller;
 
 import com.example.monitor.model.monitored_endpoint.MonitoredEndpointCreateDTO;
 import com.example.monitor.model.monitored_endpoint.MonitoredEndpointDTO;
+import com.example.monitor.model.monitoring_result.MonitoringResult;
+import com.example.monitor.model.monitoring_result.MonitoringResultDTO;
 import com.example.monitor.service.MonitoredEndpointEntityService;
 import com.example.monitor.service.ConversionService;
 import com.example.monitor.model.monitored_endpoint.MonitoredEndpoint;
@@ -10,13 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/monitored_endpoint")
 public class MonitoredEndpointController {
 
+    public static final String DEFAULT_LIMIT = "10";
     private final ConversionService conversionService;
     private final MonitoredEndpointEntityService monitoredEndpointEntityService;
 
@@ -48,15 +54,21 @@ public class MonitoredEndpointController {
         return conversionService.convertToDTO(monitoredEndpoint);
     }
 
-    @PutMapping(path = "/{id}")
-    public @ResponseBody MonitoredEndpointDTO updateMonitoredEndpoint(@PathVariable Long id, @RequestBody MonitoredEndpointCreateDTO monitoredEndpointDTO) {
+    @GetMapping(path = "/{id}/list_results")
+    public @ResponseBody List<MonitoringResultDTO> getLatestForId(@PathVariable Long id, @RequestParam(name = "limit", defaultValue = DEFAULT_LIMIT) int limit) {
         MonitoredEndpoint monitoredEndpoint = monitoredEndpointEntityService.getById(id);
 
-        monitoredEndpoint.setName(monitoredEndpointDTO.getName());
-        monitoredEndpoint.setUrl(monitoredEndpoint.getUrl());
-        monitoredEndpoint.setMonitoredIntervalSeconds(monitoredEndpoint.getMonitoredIntervalSeconds());
+        return Optional.ofNullable(monitoredEndpoint.getMonitoringResults()).orElse(Collections.emptyList())
+                .stream()
+                .sorted(Comparator.comparing(MonitoringResult::getRetrievedAt).reversed())
+                .limit(limit)
+                .map(conversionService::convertToDTO)
+                .collect(Collectors.toList());
+    }
 
-        monitoredEndpoint = monitoredEndpointEntityService.update(monitoredEndpoint);
+    @PutMapping(path = "/{id}")
+    public @ResponseBody MonitoredEndpointDTO updateMonitoredEndpoint(@PathVariable Long id, @RequestBody MonitoredEndpointCreateDTO monitoredEndpointDTO) {
+        MonitoredEndpoint monitoredEndpoint = monitoredEndpointEntityService.update(id, monitoredEndpointDTO);
         return conversionService.convertToDTO(monitoredEndpoint);
     }
 

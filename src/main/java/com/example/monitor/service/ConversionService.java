@@ -13,6 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ConversionService {
     private final ModelMapper modelMapper;
@@ -23,7 +26,17 @@ public class ConversionService {
     }
 
     public MonitoredEndpointDTO convertToDTO(MonitoredEndpoint entity) {
-        return modelMapper.map(entity, MonitoredEndpointDTO.class);
+        MonitoredEndpointDTO monitoredEndpointDTO = modelMapper.map(entity, MonitoredEndpointDTO.class);
+
+        List<Long> monitoringResultDTOs = Optional.ofNullable(entity.getMonitoringResults())
+                .map(results -> results.stream()
+                        .map(MonitoringResult::getId)
+                        .toList())
+                .orElse(List.of());
+
+        monitoredEndpointDTO.setMonitoringResultIds(monitoringResultDTOs);
+
+        return monitoredEndpointDTO;
     }
 
     public MonitoredEndpoint convertToEntity(MonitoredEndpointDTO dto) {
@@ -47,7 +60,9 @@ public class ConversionService {
     }
 
     public MonitoringResultDTO convertToDTO(MonitoringResult entity) {
-        return modelMapper.map(entity, MonitoringResultDTO.class);
+        MonitoringResultDTO monitoringResultDTO = modelMapper.map(entity, MonitoringResultDTO.class);
+        monitoringResultDTO.setMonitoredEndpointId(entity.getMonitoredEndpoint().getId());
+        return monitoringResultDTO;
     }
 
     public MonitoringResult convertToEntity(MonitoringResultDTO dto) {

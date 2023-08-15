@@ -1,6 +1,7 @@
 package com.example.monitor.service;
 
 import com.example.monitor.model.monitored_endpoint.MonitoredEndpoint;
+import com.example.monitor.model.monitored_endpoint.MonitoredEndpointCreateDTO;
 import com.example.monitor.repository.MonitoredEndpointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,13 @@ public class MonitoredEndpointEntityService {
         return monitoredEndpointRepository.save(monitoredEndpoint);
     }
 
-    public MonitoredEndpoint update(MonitoredEndpoint monitoredEndpoint) {
+    public MonitoredEndpoint update(Long id, MonitoredEndpointCreateDTO monitoredEndpointDTO) {
+        MonitoredEndpoint monitoredEndpoint = getById(id);
+
+        monitoredEndpoint.setName(monitoredEndpointDTO.getName());
+        monitoredEndpoint.setUrl(monitoredEndpoint.getUrl());
+        monitoredEndpoint.setMonitoredIntervalSeconds(monitoredEndpoint.getMonitoredIntervalSeconds());
+
         return monitoredEndpointRepository.save(monitoredEndpoint);
     }
 

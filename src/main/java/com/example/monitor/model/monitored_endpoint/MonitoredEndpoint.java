@@ -2,10 +2,13 @@ package com.example.monitor.model.monitored_endpoint;
 
 // import com.example.monitor.model.user.User;
 
+import com.example.monitor.model.monitoring_result.MonitoringResult;
+import com.example.monitor.model.user.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class MonitoredEndpoint {
@@ -21,11 +24,12 @@ public class MonitoredEndpoint {
     private Date lastCheckedAt;
     private int monitoredIntervalSeconds;
 
-    /*
+    @OneToMany(mappedBy = "monitoredEndpoint", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MonitoringResult> monitoringResults;
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
-*/
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Long getId() {
         return id;
     }
@@ -73,12 +77,12 @@ public class MonitoredEndpoint {
     public void setMonitoredIntervalSeconds(int monitoredIntervalSeconds) {
         this.monitoredIntervalSeconds = monitoredIntervalSeconds;
     }
-/*
-    public User getOwner() {
-        return owner;
+
+    public List<MonitoringResult> getMonitoringResults() {
+        return monitoringResults;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }*/
+    public void setMonitoringResults(List<MonitoringResult> monitoringResults) {
+        this.monitoringResults = monitoringResults;
+    }
 }
